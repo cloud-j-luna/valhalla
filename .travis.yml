@@ -1,0 +1,16 @@
+language: generic
+
+branches:
+  only:
+  - master
+
+jobs:
+  include:
+    - stage: "Deployment"
+      name: "Deploy to heroku"
+      if: branch = main
+      script:
+      - "heroku container:login || travis_terminate 1"
+      - "heroku container:push -a $HEROKU_APP_NAME_PROD web || travis_terminate 1"
+      - "heroku container:release -a $HEROKU_APP_NAME_PROD web || travis_terminate 1"
+  
