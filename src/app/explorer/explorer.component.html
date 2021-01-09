@@ -1,0 +1,32 @@
+<div *ngIf="response$ | async as response">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Property</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let key of getObjectWithoutMetadata(response)">
+                <th scope="row">{{key}}</th>
+                <td>{{getValueAsString(response, key)}}</td>
+                <td><span class="badge badge-primary" style="cursor: pointer" *ngIf="propertyIsObject(response, key)">Expand</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="links">
+        <table class="table table-sm">
+            <tbody>
+                <tr *ngFor="let link of getLinksObject(response)">
+                    <th scope="row"><small>{{link}}</small></th>
+                    <td><small class="link-url"
+                            (click)="newSearch(getHrefFromResponse(response, link))">{{getHrefFromResponse(response,
+                            link)}}</small></td>
+                    <td><span class="badge badge-primary">GET</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2>Raw</h2>
+    <p style="white-space: pre-wrap; font-family: monospace;">{{prettyResponse(response)}}</p>
+</div>
